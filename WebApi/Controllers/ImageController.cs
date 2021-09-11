@@ -1,4 +1,5 @@
 ﻿using Domain.Interfaces.Services;
+using Domain.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -13,16 +14,20 @@ namespace WebApi.Controllers
     public class ImageController : ControllerBase
     {
         [HttpPost]
-        public async Task<IEnumerable<string>> Upload([FromServices] IBlobService blobService)
+        public async Task<IEnumerable<string>> Upload( [FromServices] IBlobService blobService)
         {
             //valida content do request
             if (!Request.HasFormContentType)
+            {
                 BadRequest();
+                
+            }
+                
 
             //inicia upload (assincronamente)
             var tasks = Request.Form.Files.Select(file =>
             {
-                return blobService.UploadAsync(file.OpenReadStream());
+                return blobService.UploadAsync(file?.OpenReadStream());
             });
 
             //aguarda todas as tasks e devolve lista de uris

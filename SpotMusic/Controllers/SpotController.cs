@@ -10,9 +10,11 @@ using SpotMusic.Data;
 using Microsoft.AspNetCore.Identity;
 using SpotMusic.Areas.Identity.Data;
 using Domain.Interfaces.Repositories;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SpotMusic.Controllers
 {
+    [Authorize]
     public class SpotController : Controller
     {
         private readonly ISpotRepository _spotRepository;

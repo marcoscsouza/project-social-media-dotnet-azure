@@ -157,22 +157,29 @@ namespace SpotMusic.Controllers
             {
                 try
                 {
+                    
                     using var content = new MultipartFormDataContent();
 
-                    foreach (var file in form.Files) /* reponsavel por receber os arquivos */
+                    var files = form.Files.SingleOrDefault();
+                    var streamFile = files?.OpenReadStream();
+
+                    if (streamFile != null)
                     {
-                        content.Add(CreateFileContent(file.OpenReadStream(), file.FileName, file.ContentType));
+                        foreach (var file in form.Files)
+                        {
+                            content.Add(CreateFileContent(file.OpenReadStream(), file.FileName, file.ContentType));
+                        }
+
+                        var httpClient = clientFactory.CreateClient("");
+
+                        var response = await httpClient.PostAsync("api/Image", content);
+
+                        response.EnsureSuccessStatusCode();
+
+                        var responseResult = await response.Content.ReadAsStringAsync();
+                        var uriImagem = JsonConvert.DeserializeObject<string[]>(responseResult).FirstOrDefault();
+                        musicoModel.ImageUri = uriImagem;
                     }
-
-                    var httpClient = clientFactory.CreateClient("");              /* reponsavel por enviar o ping para API */
-                    var response = await httpClient.PostAsync("api/Image", content);
-
-                    response.EnsureSuccessStatusCode(); /* garantir que o retorno será de familia 200 */
-
-                    var responseResult = await response.Content.ReadAsStringAsync();
-                    var uriImagem = JsonConvert.DeserializeObject<string[]>(responseResult).FirstOrDefault();
-
-                    musicoModel.ImageUri = uriImagem;
 
                     await _musicoRepository.EditAsync(musicoModel);
                 }
