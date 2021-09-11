@@ -7,22 +7,28 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Domain.Models;
 using SpotMusic.Data;
+using Microsoft.AspNetCore.Identity;
+using SpotMusic.Areas.Identity.Data;
 
 namespace SpotMusic.Controllers
 {
     public class SpotController : Controller
     {
         private readonly SpotMusicContext _context;
+        private readonly UserManager<User> _userManager;
 
-        public SpotController(SpotMusicContext context)
+        public SpotController(SpotMusicContext context,
+                                UserManager<User> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Spot
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Spots.ToListAsync());
+            return View(await _context.Spots.Include(m => m.MusicoModel).ToListAsync());
+            //return View(await _context.Spots.ToListAsync());
         }
 
         // GET: Spot/Details/5
@@ -54,10 +60,17 @@ namespace SpotMusic.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Texto,DataCriacao")] SpotModel spotModel)
+        public async Task<IActionResult> Create(SpotModel spotModel)
         {
             if (ModelState.IsValid)
             {
+                var userId = _userManager.GetUserId(User);
+                var musico = await _context.Musicos.Where(x => x.UserId == userId).FirstOrDefaultAsync();
+
+                spotModel.MusicoModel = musico;
+                spotModel.DataCriacao = DateTime.Now;
+
+
                 _context.Add(spotModel);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -86,7 +99,7 @@ namespace SpotMusic.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Texto,DataCriacao")] SpotModel spotModel)
+        public async Task<IActionResult> Edit(int id, SpotModel spotModel)
         {
             if (id != spotModel.Id)
             {

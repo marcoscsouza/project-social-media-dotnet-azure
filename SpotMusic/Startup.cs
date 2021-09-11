@@ -35,7 +35,9 @@ namespace SpotMusic
                     options.UseSqlServer(
                         Configuration.GetConnectionString("IdentityDBContextConnection")));
 
-            
+            services.AddHttpClient("", client => {
+                client.BaseAddress = new Uri(Configuration["BaseUrlApi"]);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

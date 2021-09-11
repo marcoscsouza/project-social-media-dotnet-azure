@@ -10,6 +10,11 @@ using SpotMusic.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using SpotMusic.Areas.Identity.Data;
+using System.Net.Http;
+using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
+using System.IO;
+using System.Net.Http.Headers;
 
 namespace SpotMusic.Controllers
 {
@@ -70,20 +75,51 @@ namespace SpotMusic.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create( MusicoModel musicoModel)
+        public async Task<IActionResult> Create( MusicoModel musicoModel,
+                                                IFormCollection form,
+                                                [FromServices] IHttpClientFactory clientFactory)
         {
             if (ModelState.IsValid)
             {
+                using var content = new MultipartFormDataContent();
+
+                foreach (var file in form.Files) /* reponsavel por receber os arquivos */
+                {
+                    content.Add(CreateFileContent(file.OpenReadStream(), file.FileName, file.ContentType));
+                }
+
+                var httpClient = clientFactory.CreateClient("");              /* reponsavel por enviar o ping para API */
+                var response = await httpClient.PostAsync("api/Image", content);
+
+                response.EnsureSuccessStatusCode(); /* garantir que o retorno será de familia 200 */
+
+                var responseResult = await response.Content.ReadAsStringAsync();
+                var uriImagem = JsonConvert.DeserializeObject<string[]>(responseResult).FirstOrDefault();
+
 
 
                 var userId = _userManager.GetUserId(User);
                 musicoModel.UserId = userId;
+                musicoModel.ImageUri = uriImagem;
 
                 _context.Add(musicoModel);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(musicoModel);
+        }
+
+        private StreamContent CreateFileContent(Stream stream, string fileName, string contentType)
+        {   /* vai criar headers para a requisição, isso é uma convenção! */
+            var fileContent = new StreamContent(stream);
+            fileContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data")
+            {
+                Name = "\"files\"",
+                FileName = "\"" + fileName + "\""
+            };
+
+            fileContent.Headers.ContentType = new MediaTypeHeaderValue(contentType);
+            return fileContent;
         }
 
         // GET: Musico/Edit/5
