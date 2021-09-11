@@ -15,21 +15,22 @@ using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using System.IO;
 using System.Net.Http.Headers;
+using Domain.Interfaces.Repositories;
 
 namespace SpotMusic.Controllers
 {
     [Authorize]
     public class MusicoController : Controller
     {
-        private readonly SpotMusicContext _context;
+        private readonly IMusicoRepository _musicoRepository;
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
 
-        public MusicoController(SpotMusicContext context,
+        public MusicoController(IMusicoRepository musicoRepository,
                                  UserManager<User> userManager,
                                  SignInManager<User> signInManager)
         {
-            _context = context;
+            _musicoRepository = musicoRepository;
             _userManager = userManager;
             _signInManager = signInManager;
         }
@@ -39,9 +40,8 @@ namespace SpotMusic.Controllers
         {
             var userId = _userManager.GetUserId(User);
 
-            var musico = await _context.Musicos.Where(x => x.UserId == userId).ToListAsync();
 
-            return View(musico);
+            return View(await _musicoRepository.GetAllAsync(userId));
 
             //return View(await _context.MusicoModel.ToListAsync());
         }
@@ -54,8 +54,8 @@ namespace SpotMusic.Controllers
                 return NotFound();
             }
 
-            var musicoModel = await _context.Musicos
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var musicoModel = await _musicoRepository.GetByIdAsync(id.Value);
+
             if (musicoModel == null)
             {
                 return NotFound();
@@ -102,8 +102,8 @@ namespace SpotMusic.Controllers
                 musicoModel.UserId = userId;
                 musicoModel.ImageUri = uriImagem;
 
-                _context.Add(musicoModel);
-                await _context.SaveChangesAsync();
+                await _musicoRepository.CreateAsync(musicoModel);
+
                 return RedirectToAction(nameof(Index));
             }
             return View(musicoModel);
@@ -130,7 +130,8 @@ namespace SpotMusic.Controllers
                 return NotFound();
             }
 
-            var musicoModel = await _context.Musicos.FindAsync(id);
+            var musicoModel = await _musicoRepository.GetByIdAsync(id.Value);
+
             if (musicoModel == null)
             {
                 return NotFound();
@@ -173,8 +174,7 @@ namespace SpotMusic.Controllers
 
                     musicoModel.ImageUri = uriImagem;
 
-                    _context.Update(musicoModel);
-                    await _context.SaveChangesAsync();
+                    await _musicoRepository.EditAsync(musicoModel);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -200,8 +200,8 @@ namespace SpotMusic.Controllers
                 return NotFound();
             }
 
-            var musicoModel = await _context.Musicos
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var musicoModel = await _musicoRepository.GetByIdAsync(id.Value);
+
             if (musicoModel == null)
             {
                 return NotFound();
@@ -215,15 +215,17 @@ namespace SpotMusic.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var musicoModel = await _context.Musicos.FindAsync(id);
-            _context.Musicos.Remove(musicoModel);
-            await _context.SaveChangesAsync();
+            var musico = _musicoRepository.GetByIdAsync(id).Result;
+
+            await _musicoRepository.DeleteAsync(id);
             return RedirectToAction(nameof(Index));
         }
 
         private bool MusicoModelExists(int id)
         {
-            return _context.Musicos.Any(e => e.Id == id);
+            var musico = _musicoRepository.GetByIdAsync(id).Result;
+
+            return (musico != null);
         }
     }
 }

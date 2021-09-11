@@ -11,6 +11,9 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using SpotMusic.Data;
 using SpotMusic.Areas.Identity.Data;
+using Data;
+using Domain.Interfaces.Repositories;
+using Data.Repositories;
 
 namespace SpotMusic
 {
@@ -30,6 +33,9 @@ namespace SpotMusic
 
             services.AddDbContext<SpotMusicContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("SpotMusicContext")));
+
+            services.AddScoped<IMusicoRepository, MusicoRepository>();
+            services.AddScoped<ISpotRepository, SpotRepository>();
 
             services.AddDbContext<IdentityDBContext>(options =>
                     options.UseSqlServer(

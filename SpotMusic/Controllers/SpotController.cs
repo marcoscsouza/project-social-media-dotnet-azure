@@ -9,25 +9,29 @@ using Domain.Models;
 using SpotMusic.Data;
 using Microsoft.AspNetCore.Identity;
 using SpotMusic.Areas.Identity.Data;
+using Domain.Interfaces.Repositories;
 
 namespace SpotMusic.Controllers
 {
     public class SpotController : Controller
     {
-        private readonly SpotMusicContext _context;
+        private readonly ISpotRepository _spotRepository;
+        private readonly IMusicoRepository _musicoRepository;
         private readonly UserManager<User> _userManager;
 
-        public SpotController(SpotMusicContext context,
-                                UserManager<User> userManager)
+        public SpotController(ISpotRepository spotRepository,
+                              IMusicoRepository musicoRepository,
+                              UserManager<User> userManager)
         {
-            _context = context;
+            _spotRepository = spotRepository;
+            _musicoRepository = musicoRepository;
             _userManager = userManager;
         }
 
         // GET: Spot
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Spots.Include(m => m.MusicoModel).ToListAsync());
+            return View(await _spotRepository.GetAllAsync());
             //return View(await _context.Spots.ToListAsync());
         }
 
@@ -39,8 +43,8 @@ namespace SpotMusic.Controllers
                 return NotFound();
             }
 
-            var spotModel = await _context.Spots
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var spotModel = await _spotRepository.GetByIdAsync(id.Value);
+
             if (spotModel == null)
             {
                 return NotFound();
@@ -65,14 +69,17 @@ namespace SpotMusic.Controllers
             if (ModelState.IsValid)
             {
                 var userId = _userManager.GetUserId(User);
-                var musico = await _context.Musicos.Where(x => x.UserId == userId).FirstOrDefaultAsync();
+
+                var musico = await _musicoRepository.GetProfileByUserIdAsync(userId);
+
+
+                //var musico = await _context.Musicos.Where(x => x.UserId == userId).FirstOrDefaultAsync();
 
                 spotModel.MusicoModel = musico;
                 spotModel.DataCriacao = DateTime.Now;
 
 
-                _context.Add(spotModel);
-                await _context.SaveChangesAsync();
+                await _spotRepository.CreateAsync(spotModel);
                 return RedirectToAction(nameof(Index));
             }
             return View(spotModel);
@@ -86,7 +93,8 @@ namespace SpotMusic.Controllers
                 return NotFound();
             }
 
-            var spotModel = await _context.Spots.FindAsync(id);
+            var spotModel = await _spotRepository.GetByIdAsync(id.Value);
+
             if (spotModel == null)
             {
                 return NotFound();
@@ -110,8 +118,7 @@ namespace SpotMusic.Controllers
             {
                 try
                 {
-                    _context.Update(spotModel);
-                    await _context.SaveChangesAsync();
+                    await _spotRepository.EditAsync(spotModel);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -137,8 +144,8 @@ namespace SpotMusic.Controllers
                 return NotFound();
             }
 
-            var spotModel = await _context.Spots
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var spotModel = await _spotRepository.GetByIdAsync(id.Value);
+
             if (spotModel == null)
             {
                 return NotFound();
@@ -152,15 +159,17 @@ namespace SpotMusic.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var spotModel = await _context.Spots.FindAsync(id);
-            _context.Spots.Remove(spotModel);
-            await _context.SaveChangesAsync();
+            var spotModel = _spotRepository.GetByIdAsync(id).Result;
+
+            await _spotRepository.DeleteAsync(id);
             return RedirectToAction(nameof(Index));
         }
 
         private bool SpotModelExists(int id)
         {
-            return _context.Spots.Any(e => e.Id == id);
+            var spot = _spotRepository.GetByIdAsync(id).Result;
+
+            return (spot != null);
         }
     }
 }

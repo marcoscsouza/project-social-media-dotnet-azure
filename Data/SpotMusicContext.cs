@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Domain.Models;
 
-namespace SpotMusic.Data
+namespace Data
 {
     public class SpotMusicContext : DbContext
     {

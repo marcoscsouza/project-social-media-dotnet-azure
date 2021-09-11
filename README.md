@@ -1,4 +1,15 @@
+#Projeto de bloco TP 9
+
+## Etapas anteriores 
+
+
+
+
+
+
 # migrations
+
+
 
 
 #### migrations dos models direto no mvc

@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using SpotMusic.Data;
+using Data;
 
-namespace SpotMusic.Data.Migrations
+namespace Data.Migrations
 {
     [DbContext(typeof(SpotMusicContext))]
     partial class SpotMusicContextModelSnapshot : ModelSnapshot

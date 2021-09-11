@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using SpotMusic.Data;
+using Data;
 
-namespace SpotMusic.Data.Migrations
+namespace Data.Migrations
 {
     [DbContext(typeof(SpotMusicContext))]
     [Migration("20210911153957_addInitial")]
