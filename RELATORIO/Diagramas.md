@@ -3,9 +3,9 @@
 <br><br><br>
 
 ## Diagrama de classes do TP4
-![Diagrama de classe](img/ex1DiagramClass.png)
+![Diagrama de classe](img/DiagramClass.png)
 
 <br><br><br>
 
 ## Diagrama de componentes do TP5
-![Diagrama de componente](img/ex1DiagramComponent.png)
+![Diagrama de componente](img/DiagramComponent.png)
