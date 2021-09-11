@@ -110,7 +110,7 @@ namespace SpotMusic.Controllers
         }
 
         private StreamContent CreateFileContent(Stream stream, string fileName, string contentType)
-        {   /* vai criar headers para a requisição, isso é uma convenção! */
+        {   
             var fileContent = new StreamContent(stream);
             fileContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data")
             {
@@ -143,7 +143,9 @@ namespace SpotMusic.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, MusicoModel musicoModel)
+        public async Task<IActionResult> Edit(int id, MusicoModel musicoModel,
+                                                IFormCollection form,
+                                                [FromServices] IHttpClientFactory clientFactory)
         {
             if (id != musicoModel.Id)
             {
@@ -154,6 +156,23 @@ namespace SpotMusic.Controllers
             {
                 try
                 {
+                    using var content = new MultipartFormDataContent();
+
+                    foreach (var file in form.Files) /* reponsavel por receber os arquivos */
+                    {
+                        content.Add(CreateFileContent(file.OpenReadStream(), file.FileName, file.ContentType));
+                    }
+
+                    var httpClient = clientFactory.CreateClient("");              /* reponsavel por enviar o ping para API */
+                    var response = await httpClient.PostAsync("api/Image", content);
+
+                    response.EnsureSuccessStatusCode(); /* garantir que o retorno será de familia 200 */
+
+                    var responseResult = await response.Content.ReadAsStringAsync();
+                    var uriImagem = JsonConvert.DeserializeObject<string[]>(responseResult).FirstOrDefault();
+
+                    musicoModel.ImageUri = uriImagem;
+
                     _context.Update(musicoModel);
                     await _context.SaveChangesAsync();
                 }
