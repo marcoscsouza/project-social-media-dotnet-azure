@@ -2,7 +2,8 @@
 
 ## Projeto de bloco TP 9
 <br/>
-Link para a rede social SPOTMUSIC: [AQUI!!!](https://app-marcos-cassiano-pb-tp9.azurewebsites.net)
+Link para a rede social SPOTMUSIC: 
+[AQUI](https://app-marcos-cassiano-pb-tp9.azurewebsites.net)
 
 ### Etapas anteriores 
 - TP 1
