@@ -1,19 +1,21 @@
-#Projeto de bloco TP 9
+# SPOTMUSIC
+
+## Projeto de bloco TP 9
 <br/>
-Link para a rede social SPOTMUSIC: [AQUI!!!](as.com)
+Link para a rede social SPOTMUSIC: [AQUI!!!](https://app-marcos-cassiano-pb-tp9.azurewebsites.net)
 
-## Etapas anteriores 
+### Etapas anteriores 
 
-TP 1
+[TP 1](https://github.com/marcoscouzads/ProjetoBloco-TP1-Marcos_Cassiano.git)
 Metodologia de desenvolvimento e Requisitos de softwares
 
-TP 2 e TP 3
+[TP 2 e TP 3](https://github.com/marcoscouzads/ProjetoBloco-TP3-Marcos_Cassiano.git)
 Requisitos do Sistema
 
-TP 4 e TP 5
+[TP 4 e TP 5](https://github.com/marcoscouzads/ProjetoBloco-TP5-Marcos_Cassiano-.git)
 Diagramas de Classes e Componentes
 
-TP6 e TP 7
+[TP6 e TP 7](https://github.com/marcoscouzads/ProjetoBloco_TP7_Marcos_Cassiano.git)
 Inicio da construção da rede social SPOTMUSIC
 
 
