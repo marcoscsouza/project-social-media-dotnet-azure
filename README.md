@@ -7,8 +7,9 @@ Link para a rede social SPOTMUSIC: [AQUI!!!](https://app-marcos-cassiano-pb-tp9.
 ### Etapas anteriores 
 - TP 1
 [Git](https://github.com/marcoscouzads/ProjetoBloco-TP1-Marcos_Cassiano.git)
-Metodologia de desenvolvimento e Requisitos de softwares
+Metodologia de desenvolvimento 
 [Relatorio](https://github.com/marcoscouzads/ProjetoBloco_TP9_Marcos_Cassiano/blob/master/RELATORIO/MetodologiaDeDesenvolvimento.md)
+e Requisitos de softwares
 [Relatorio](https://github.com/marcoscouzads/ProjetoBloco_TP9_Marcos_Cassiano/blob/master/RELATORIO/RequisitosDeSoftware.md)
 
  - TP 2 e TP 3
