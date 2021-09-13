@@ -1,0 +1,14 @@
+{
+  "dependencies": {
+    "apis1": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.ApiManagement/service/api-WebApi-spotmusic/apis/WebApi-spotmusic",
+      "type": "apis.azure"
+    },
+    "storage1": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Storage/storageAccounts/stspotmusictp",
+      "type": "storage.azure",
+      "connectionId": "StorageAccountConnectionString",
+      "secretStore": "AzureAppSettings"
+    }
+  }
+}
