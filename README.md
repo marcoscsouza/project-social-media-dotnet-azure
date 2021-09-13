@@ -33,7 +33,7 @@ Inicio da construção da rede social SPOTMUSIC
 
  Na primeira etapa aprendi sobre os metodos existente sobre criação de softwares e como definir os requisitos necessarios para os clientes.
 Logo após foi feita o levantamentos destes requisitos e sua descrição detalhada para definir os limites para a implementação das funcionalidades.
-Nas etapas 4 e 5 foram feitos os diagramas para uma definição melhor das classes e componentes que iram ser utilizados no inicio da construção do projeto
+Nas etapas 4 e 5 foram feitos os diagramas para uma definição melhor das classes e componentes que iram ser utilizados no inicio da construção do projeto.
 As etapas 6 e 7 foram o inicio do projeto, e com ele a construção das necessidades e colocação de todos atributos de classe desenvolvidas até este momento.
 Nesta ultima etapa foi o fechamento dos pontos faltantes como a divisão em camadas e funcionalidades basicas para uma rede social, como uma foto de perfil
 e um feed de postagem, onde convencionei de chamar de spots, para fazer mais sentido com a rede social em questão.
