@@ -5,17 +5,24 @@
 Link para a rede social SPOTMUSIC: [AQUI!!!](https://app-marcos-cassiano-pb-tp9.azurewebsites.net)
 
 ### Etapas anteriores 
-
-[TP 1](https://github.com/marcoscouzads/ProjetoBloco-TP1-Marcos_Cassiano.git)
+- TP 1
+[Git](https://github.com/marcoscouzads/ProjetoBloco-TP1-Marcos_Cassiano.git)
 Metodologia de desenvolvimento e Requisitos de softwares
+[Relatorio](https://github.com/marcoscouzads/ProjetoBloco_TP9_Marcos_Cassiano/blob/master/RELATORIO/MetodologiaDeDesenvolvimento.md)
+[Relatorio](https://github.com/marcoscouzads/ProjetoBloco_TP9_Marcos_Cassiano/blob/master/RELATORIO/RequisitosDeSoftware.md)
 
-[TP 2 e TP 3](https://github.com/marcoscouzads/ProjetoBloco-TP3-Marcos_Cassiano.git)
+ - TP 2 e TP 3
+[Git](https://github.com/marcoscouzads/ProjetoBloco-TP3-Marcos_Cassiano.git)
 Requisitos do Sistema
+[Relatorio](https://github.com/marcoscouzads/ProjetoBloco_TP9_Marcos_Cassiano/blob/master/RELATORIO/RequisitosDeSistema.md)
 
-[TP 4 e TP 5](https://github.com/marcoscouzads/ProjetoBloco-TP5-Marcos_Cassiano-.git)
+ - TP 4 e TP 5
+[Git](https://github.com/marcoscouzads/ProjetoBloco-TP5-Marcos_Cassiano-.git)
 Diagramas de Classes e Componentes
+[Relatorio](https://github.com/marcoscouzads/ProjetoBloco_TP9_Marcos_Cassiano/blob/master/RELATORIO/Diagramas.md)
 
-[TP6 e TP 7](https://github.com/marcoscouzads/ProjetoBloco_TP7_Marcos_Cassiano.git)
+ - TP6 e TP 7
+[Git](https://github.com/marcoscouzads/ProjetoBloco_TP7_Marcos_Cassiano.git)
 Inicio da construção da rede social SPOTMUSIC
 
 
