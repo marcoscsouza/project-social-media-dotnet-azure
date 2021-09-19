@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Domain.Models.MusicoModel>
+﻿@model MusicoIndexViewModel
 
 @{
     ViewData["Title"] = "Index";
@@ -6,74 +6,82 @@
 
 <h1>Perfil do Musico</h1>
 
-<p>
-    <a asp-action="Create">Criar perfil para o Musico</a>
-</p>
+@{
+    if (Model.Musicos == null || !Model.Musicos.Any())
+    {
+        <h4>Que tal colocar mais detalhes sobre voce?</h4>
+        <p>
+            <a asp-action="Create" class="btn btn-primary btn-lg">Editar perfil</a>
+            
+        </p>
+    }
+
+}
+
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.ImageUri)
+                @Html.DisplayNameFor(model => model.Musicos.First().ImageUri)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PrimeiroNome)
+                @Html.DisplayNameFor(model => model.Musicos.First().PrimeiroNome)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.UltimoNome)
+                @Html.DisplayNameFor(model => model.Musicos.First().UltimoNome)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.InstrumentoPreferido)
+                @Html.DisplayNameFor(model => model.Musicos.First().InstrumentoPreferido)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.MultiInstrumentista)
+                @Html.DisplayNameFor(model => model.Musicos.First().MultiInstrumentista)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DataNascimento)
+                @Html.DisplayNameFor(model => model.Musicos.First().DataNascimento)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PossuiBanda)
+                @Html.DisplayNameFor(model => model.Musicos.First().PossuiBanda)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Banda)
+                @Html.DisplayNameFor(model => model.Musicos.First().Banda)
             </th>
 
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                <img src="@Html.DisplayFor(modelItem => item.ImageUri)" width="35" />
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PrimeiroNome)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UltimoNome)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.InstrumentoPreferido)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MultiInstrumentista)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DataNascimento)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PossuiBanda)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Banda)
-            </td>
-            
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Detalhes</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Apagar informações</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model.Musicos)
+        {
+            <tr>
+                <td>
+                    <img src="@Html.DisplayFor(modelItem => item.ImageUri)" width="35" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PrimeiroNome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UltimoNome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InstrumentoPreferido)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MultiInstrumentista)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DataNascimento)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PossuiBanda)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Banda)
+                </td>
+
+                <td>
+                </td>
+            </tr>
+            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary btn-lg">Editar perfil</a> <br />
+        }
     </tbody>
 </table>

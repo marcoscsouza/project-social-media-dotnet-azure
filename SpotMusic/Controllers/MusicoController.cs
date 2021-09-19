@@ -16,6 +16,7 @@ using Newtonsoft.Json;
 using System.IO;
 using System.Net.Http.Headers;
 using Domain.Interfaces.Repositories;
+using SpotMusic.Models;
 
 namespace SpotMusic.Controllers
 {
@@ -36,12 +37,15 @@ namespace SpotMusic.Controllers
         }
 
         // GET: Musico
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(MusicoIndexViewModel musicoIndexRequest)
         {
             var userId = _userManager.GetUserId(User);
 
-
-            return View(await _musicoRepository.GetAllAsync(userId));
+            var MusicoIndexViewModel = new MusicoIndexViewModel
+            {
+                Musicos = await _musicoRepository.GetAllAsync(userId)
+            };
+            return View(MusicoIndexViewModel);
 
             //return View(await _context.MusicoModel.ToListAsync());
         }
